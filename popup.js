@@ -2,7 +2,7 @@
 
 import * as Utils from "./utils.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const filterTitle = document.getElementById("filter-title");
     const filterInput = document.getElementById("filter-input");
     const addFilterBtn = document.getElementById("add-filter");
@@ -10,20 +10,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabButtons = document.querySelectorAll(".tab-button");
 
     let currentSite = "Reddit";
+    //Load the saved filters
     let filters = {
         Reddit: {
             storageName: "rdFiltersStorage",
-            fillterWords: []
+            fillterWords: await Utils.fetchFilters("rdFiltersStorage")
         },
         Facebook: {
             storageName: "fbFiltersStorage",
-            fillterWords: []
+            fillterWords: await Utils.fetchFilters("fbFiltersStorage")
         },
         YouTube: {
             storageName: "ytFiltersStorage",
-            fillterWords: []
+            fillterWords: await Utils.fetchFilters("ytFiltersStorage")
         },
     };
+    updateFilterList();
 
     // Change tab
     tabButtons.forEach(button => {
@@ -48,6 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateFilterList() {
         //Sort the array of the curretn site
         filters[currentSite].fillterWords.sort();
+
+        //Store current filters to chrome
+        chrome.storage.sync.set({
+            [filters[currentSite].storageName]: JSON.stringify(filters[currentSite].fillterWords)
+        });
 
         //Update the list
         filterList.innerHTML = "";
