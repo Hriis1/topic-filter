@@ -1,0 +1,33 @@
+{
+    "name": "My Chrome Extension",
+    "version": "0.1.0",
+    "description": "Extension description",
+    "permissions": ["storage", "tabs"],
+    "host_permissions": ["<all_urls>"],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": [ "contentScript.js" ]
+      }
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "web_accessible_resources": [
+      {
+        "resources": [
+        ],
+        "matches": ["<all_urls>"]
+      }
+    ],
+    "action": {
+      "default_icon": {
+        "16": "assets/ext-icon.png",
+        "24": "assets/ext-icon.png",
+        "32": "assets/ext-icon.png"
+      },
+      "default_title": "My Chrome Extension",
+      "default_popup": "popup.html"
+    },
+    "manifest_version": 3
+}
