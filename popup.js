@@ -10,7 +10,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabButtons = document.querySelectorAll(".tab-button");
 
     let currentSite = "Reddit";
-    let filters = { Reddit: [], Facebook: [], YouTube: [] };
+    let filters = {
+        Reddit: {
+            storageName: "rdFiltersStorage",
+            fillterWords: []
+        },
+        Facebook: {
+            storageName: "fbFiltersStorage",
+            fillterWords: []
+        },
+        YouTube: {
+            storageName: "ytFiltersStorage",
+            fillterWords: []
+        },
+    };
 
     // Change tab
     tabButtons.forEach(button => {
@@ -25,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addFilterBtn.addEventListener("click", () => {
         const filterText = filterInput.value.trim();
         if (filterText) {
-            filters[currentSite].push(filterText);
+            filters[currentSite].fillterWords.push(filterText);
             filterInput.value = "";
             updateFilterList();
         }
@@ -34,11 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Update filter list
     function updateFilterList() {
         //Sort the array of the curretn site
-        filters[currentSite].sort();
+        filters[currentSite].fillterWords.sort();
 
         //Update the list
         filterList.innerHTML = "";
-        filters[currentSite].forEach((filter, index) => {
+        filters[currentSite].fillterWords.forEach((filter, index) => {
             const listItem = document.createElement("li");
             listItem.textContent = filter;
 
@@ -48,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             //Delete the filter when clicked
             deleteBtn.addEventListener("click", () => {
-                filters[currentSite].splice(index, 1);
+                filters[currentSite].fillterWords.splice(index, 1);
                 updateFilterList();
             });
 
