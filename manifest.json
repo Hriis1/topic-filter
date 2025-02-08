@@ -1,7 +1,7 @@
 {
-    "name": "My Chrome Extension",
+    "name": "Topic Filter",
     "version": "0.1.0",
-    "description": "Extension description",
+    "description": "Filters unwanted content",
     "permissions": ["storage", "tabs"],
     "host_permissions": ["<all_urls>"],
     "content_scripts": [
@@ -26,7 +26,7 @@
         "24": "assets/ext-icon.png",
         "32": "assets/ext-icon.png"
       },
-      "default_title": "My Chrome Extension",
+      "default_title": "Topic Filter",
       "default_popup": "popup.html"
     },
     "manifest_version": 3
