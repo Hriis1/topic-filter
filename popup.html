@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,6 +11,30 @@
 <body>
   <div id="popup-container" class="container">
     <div class="title">Topic Filter</div>
+
+    <!-- Tab Buttons -->
+    <div class="tabs">
+      <button class="tab-button" data-site="Reddit">
+        <img src="icons/reddit.png" alt="Reddit">
+      </button>
+      <button class="tab-button" data-site="Facebook">
+        <img src="icons/facebook.png" alt="Facebook">
+      </button>
+      <button class="tab-button" data-site="YouTube">
+        <img src="icons/youtube.png" alt="YouTube">
+      </button>
+    </div>
+
+    <!-- Dynamic Content -->
+    <div id="filter-section">
+      <h2 id="filter-title">Filters for Reddit</h2>
+      <div class="input-container">
+        <input type="text" id="filter-input" placeholder="Enter filter word">
+        <button id="add-filter">Add</button>
+      </div>
+      <ul id="filter-list">
+      </ul>
+    </div>
   </div>
 
   <script type="module" src="popup.js"></script>
