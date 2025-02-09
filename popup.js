@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const addFilterBtn = document.getElementById("add-filter");
     const filterList = document.getElementById("filter-list");
     const tabButtons = document.querySelectorAll(".tab-button");
+    const toggleSwitch = document.getElementById("filter-toggle");
 
     let currentSite = "Reddit";
     //Load the saved filters
@@ -26,6 +27,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         },
     };
     updateFilterList();
+
+    // Load saved toggle state
+    chrome.storage.sync.get(["filterEnabled"], (data) => {
+        if (data.filterEnabled !== undefined) {
+            toggleSwitch.checked = data.filterEnabled;
+        }
+    });
+
+    //Store toggle state
+    toggleSwitch.addEventListener("change", () => {
+        chrome.storage.sync.set({ filterEnabled: toggleSwitch.checked });
+    });
 
     // Change tab
     tabButtons.forEach(button => {
