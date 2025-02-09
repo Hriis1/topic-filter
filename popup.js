@@ -35,9 +35,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    //Store toggle state
-    toggleSwitch.addEventListener("change", () => {
+    //When filter/unfilter switch is toggled
+    toggleSwitch.addEventListener("change", async () => {
+        //Store state
         chrome.storage.sync.set({ filterEnabled: toggleSwitch.checked });
+
+        //Get the active tab and check if site is supported
+        const tab = await Utils.getActiveTab();
+        filterVal = toggleSwitch.checked ? 1 : 0; //1 - filter, 0 - unfilter
+        if (tab.url.includes("reddit.com")) { //if its a reddit tab
+            chrome.tabs.sendMessage(tab.id, {
+                type: "FILTER",
+                site: "reddit",
+                filterAction: filterVal
+            });
+        }
     });
 
     // Change tab
