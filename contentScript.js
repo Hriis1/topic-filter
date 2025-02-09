@@ -5,6 +5,8 @@
 
         if (type === "FILTER") {
             console.log("Filter site: " + site);
+        } else if (type == "UNFILTER") {
+            console.log("This site is not supported");
         } else if (type == "DEFAULT") {
             console.log("This site is not supported");
         }
