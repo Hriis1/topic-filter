@@ -23,16 +23,17 @@
 
         //Filter the main content of reddit
         const feedContainer = document.querySelector("shreddit-feed");
-        if (!feedContainer) {
+
+        if (feedContainer) { //if there is a feedContainer
+            // Select all article and shreddit-ad-post elements within the container
+            const elements = feedContainer.querySelectorAll("article, shreddit-ad-post");
+
+            //Filter the elements
+            elements.forEach(el => filterFunc(el, redditFilters));
+
+        } else { //if there is no feedContainer
             console.warn("No shreddit-feed container found");
-            return;
         }
-
-        // Select all article and shreddit-ad-post elements within the container
-        const elements = feedContainer.querySelectorAll("article, shreddit-ad-post");
-
-        //Filter the elements
-        elements.forEach(el => filterFunc(el, redditFilters));
 
         //Filter the side bar
     }
