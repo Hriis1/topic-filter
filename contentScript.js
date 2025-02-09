@@ -51,11 +51,21 @@
     }
 
     function filterElement(el, filters) {
+        // Clone the element so we don't modify the live DOM
+        const clone = el.cloneNode(true);
+
+        // Remove any descendant <span> or <div> whose text starts with "r/"
+        clone.querySelectorAll("span, div").forEach(child => {
+            if (child.textContent.trim().startsWith("r/")) {
+                child.remove();
+            }
+        });
+
         // Get all the text within the element
-        const text = el.textContent || "";
+        const cleanedText = clone.textContent || "";
 
         // Check if any of the filter keywords appear in the text
-        const hasFilterKeyword = filters.some(keyword => text.includes(keyword));
+        const hasFilterKeyword = filters.some(keyword => cleanedText.includes(keyword));
 
         if (hasFilterKeyword) {
             // Add the class to hide this element
