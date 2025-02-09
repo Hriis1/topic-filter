@@ -6,10 +6,8 @@
         if (type === "FILTER") {
             if (filterAction == 1)
                 console.log("Filter site: " + site);
-            else if (filterAction == 2)
-                console.log("Unfilter site: " + site);
             else if (filterAction == 0)
-                console.log("Dont do anything yet :)");
+                console.log("Unfilter site: " + site);
 
         } else if (type == "DEFAULT") {
             console.log("This site is not supported");

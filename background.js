@@ -10,20 +10,21 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
             chrome.storage.sync.get(['filterEnabled'], resolve)
         );
 
-        // Set filterAction based on the retrieved value
-        const filterAction = data.filterEnabled ? 1 : 0;
-
-        if (tab.url.includes("reddit.com")) { //if its a reddit tab
-            chrome.tabs.sendMessage(tabId, {
-                type: "FILTER",
-                site: "reddit",
-                filterAction: filterAction
-            });
+        if (data.filterEnabled) { //if filtering is enabled
+            if (tab.url.includes("reddit.com")) { //if its a reddit tab
+                chrome.tabs.sendMessage(tabId, {
+                    type: "FILTER",
+                    site: "reddit",
+                    filterAction: 1
+                });
+            } else {
+                chrome.tabs.sendMessage(tabId, {
+                    type: "DEFAULT",
+                    site: "",
+                });
+            }
         } else {
-            chrome.tabs.sendMessage(tabId, {
-                type: "DEFAULT",
-                site: "",
-            });
+            console.log("NO filters");
         }
     }
 });
