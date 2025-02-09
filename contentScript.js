@@ -9,8 +9,6 @@
             else if (filterAction == 0)
                 console.log("Unfilter site: " + site);
 
-        } else if (type == "DEFAULT") {
-            console.log("This site is not supported");
         }
     });
 

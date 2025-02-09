@@ -18,10 +18,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
                     filterAction: 1
                 });
             } else {
-                chrome.tabs.sendMessage(tabId, {
-                    type: "DEFAULT",
-                    site: "",
-                });
+                console.log("No msg sent");
             }
         } else {
             console.log("NO filters");
