@@ -7,17 +7,18 @@
             if (site == "reddit") {
                 if (filterAction == 1) {
                     console.log("Filter site: " + site);
-                    filterReddit(1);
+                    filterReddit(filterElement);
                 }
                 else if (filterAction == 0) {
                     console.log("Unfilter site: " + site);
+                    filterReddit(unfilterElement);
                 }
             }
 
         }
     });
 
-    async function filterReddit(filterAction) {
+    async function filterReddit(filterFunc) {
         const redditFilters = await fetchFilters("rdFiltersStorage");
 
         //Filter the main content of reddit
@@ -30,20 +31,27 @@
         // Select all article and shreddit-ad-post elements within the container
         const elements = feedContainer.querySelectorAll("article, shreddit-ad-post");
 
-        elements.forEach(el => {
-            // Get all the text within the element
-            const text = el.textContent || "";
-
-            // Check if any of the filter keywords appear in the text
-            const hasFilterKeyword = redditFilters.some(keyword => text.includes(keyword));
-
-            if (hasFilterKeyword) {
-                // Add the class to hide this element
-                el.classList.add("filter-extention-d-none");
-            }
-        });
+        //Filter the elements
+        elements.forEach(el => filterFunc(el, redditFilters));
 
         //Filter the side bar
+    }
+
+    function filterElement(el, filters) {
+        // Get all the text within the element
+        const text = el.textContent || "";
+
+        // Check if any of the filter keywords appear in the text
+        const hasFilterKeyword = filters.some(keyword => text.includes(keyword));
+
+        if (hasFilterKeyword) {
+            // Add the class to hide this element
+            el.classList.add("filter-extention-d-none");
+        }
+    }
+
+    function unfilterElement(el, filters) {
+        el.classList.remove("filter-extention-d-none");
     }
 
 
