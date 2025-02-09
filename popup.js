@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const tabButtons = document.querySelectorAll(".tab-button");
     const toggleSwitch = document.getElementById("filter-toggle");
 
+    //Get the active tab
+    const activeTab = await Utils.getActiveTab();
+
     let currentSite = "Reddit";
     //Load the saved filters
     let filters = {
@@ -37,14 +40,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     //When filter/unfilter switch is toggled
     toggleSwitch.addEventListener("change", async () => {
+
         //Store state
         chrome.storage.sync.set({ filterEnabled: toggleSwitch.checked });
 
-        //Get the active tab and check if site is supported
-        const tab = await Utils.getActiveTab();
-        filterVal = toggleSwitch.checked ? 1 : 0; //1 - filter, 0 - unfilter
-        if (tab.url.includes("reddit.com")) { //if its a reddit tab
-            chrome.tabs.sendMessage(tab.id, {
+        //Send a filter/unfilter command if site is supported
+        const filterVal = toggleSwitch.checked ? 1 : 0; //1 - filter, 0 - unfilter
+        if (activeTab.url.includes("reddit.com")) { //if its a reddit tab
+            chrome.tabs.sendMessage(activeTab.id, {
                 type: "FILTER",
                 site: "reddit",
                 filterAction: filterVal
