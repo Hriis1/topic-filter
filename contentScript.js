@@ -7,11 +7,10 @@
             if (site == "reddit") {
                 if (filterAction == 1) {
                     console.log("Filter site: " + site);
-                    filterReddit();
+                    filterReddit(1);
                 }
                 else if (filterAction == 0) {
                     console.log("Unfilter site: " + site);
-                    unfilterReddit();
                 }
             }
 
