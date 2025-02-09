@@ -36,6 +36,18 @@
         }
 
         //Filter the side bar
+        const sideBar = document.querySelector('div[slot="posts"]');
+        if (sideBar) {
+            //Select the posts on the side
+            const elements = sideBar.querySelectorAll("div");
+
+            //Filter the elements
+            elements.forEach(el => filterFunc(el, redditFilters));
+
+        } else {
+            console.warn("No side bar found");
+        }
+
     }
 
     function filterElement(el, filters) {
