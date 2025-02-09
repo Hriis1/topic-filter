@@ -26,7 +26,7 @@
 
         if (feedContainer) { //if there is a feedContainer
             // Select all article and shreddit-ad-post elements within the container
-            const elements = feedContainer.querySelectorAll(":scope > article, :scope > shreddit-ad-post");
+            const elements = feedContainer.querySelectorAll("article, shreddit-ad-post");
 
             //Filter the elements
             elements.forEach(el => filterFunc(el, redditFilters));
@@ -39,7 +39,7 @@
         const sideBar = document.querySelector('div[slot="posts"]');
         if (sideBar) {
             //Select the posts on the side
-            const elements = sideBar.querySelectorAll(":scope > div");
+            const elements = sideBar.querySelectorAll("div");
 
             //Filter the elements
             elements.forEach(el => filterFunc(el, redditFilters));
@@ -51,7 +51,6 @@
     }
 
     function filterElement(el, filters) {
-        console.log(el);
         // Get all the text within the element
         const text = el.textContent || "";
 
