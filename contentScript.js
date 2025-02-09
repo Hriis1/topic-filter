@@ -26,7 +26,7 @@
 
         if (feedContainer) { //if there is a feedContainer
             // Select all article and shreddit-ad-post elements within the container
-            const elements = feedContainer.querySelectorAll("article, shreddit-ad-post");
+            const elements = feedContainer.querySelectorAll(":scope > article, :scope > shreddit-ad-post");
 
             //Filter the elements
             elements.forEach(el => filterFunc(el, redditFilters));
@@ -39,7 +39,7 @@
         const sideBar = document.querySelector('div[slot="posts"]');
         if (sideBar) {
             //Select the posts on the side
-            const elements = sideBar.querySelectorAll("div");
+            const elements = sideBar.querySelectorAll(":scope > div");
 
             //Filter the elements
             elements.forEach(el => filterFunc(el, redditFilters));
@@ -51,21 +51,12 @@
     }
 
     function filterElement(el, filters) {
-        // Clone the element so we don't modify the live DOM
-        const clone = el.cloneNode(true);
-
-        // Remove any descendant <span> or <div> whose text starts with "r/"
-        clone.querySelectorAll("span, div").forEach(child => {
-            if (child.textContent.trim().startsWith("r/")) {
-                child.remove();
-            }
-        });
-
+        console.log(el);
         // Get all the text within the element
-        const cleanedText = clone.textContent || "";
+        const text = el.textContent || "";
 
         // Check if any of the filter keywords appear in the text
-        const hasFilterKeyword = filters.some(keyword => cleanedText.includes(keyword));
+        const hasFilterKeyword = filters.some(keyword => text.includes(keyword));
 
         if (hasFilterKeyword) {
             // Add the class to hide this element
