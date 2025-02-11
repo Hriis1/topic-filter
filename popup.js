@@ -97,7 +97,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 await updateFilterList();
 
                 if (toggleSwitch.checked) { //send a filter command if filtering is on
-                    Utils.sendFilterCommand(activeTab, 1);
+                    Utils.sendFilterCommand(activeTab, 0); //First send unfilter command
+                    Utils.sendFilterCommand(activeTab, 1); //Then send a filter command without the deleted element
                 }
             });
 
