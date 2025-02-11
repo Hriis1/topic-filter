@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             fillterWords: await Utils.fetchFilters("ytFiltersStorage")
         },
     };
-    updateFilterList();
+    await updateFilterList();
 
     // Load saved toggle state and send 
     chrome.storage.sync.get(["filterEnabled"], (data) => {
@@ -51,20 +51,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Change tab
     tabButtons.forEach(button => {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", async () => {
             currentSite = button.dataset.site;
             filterTitle.textContent = `Filters for ${currentSite}`;
-            updateFilterList();
+            await updateFilterList();
         });
     });
 
     // Add filter
-    addFilterBtn.addEventListener("click", () => {
+    addFilterBtn.addEventListener("click", async () => {
         const filterText = filterInput.value.trim().toLowerCase(); //trim the text and transform it to lower case
         if (filterText) {
             filters[currentSite].fillterWords.push(filterText);
             filterInput.value = "";
-            updateFilterList();
+            await updateFilterList();
             if (toggleSwitch.checked) { //send a filter command if filtering is on
                 Utils.sendFilterCommand(activeTab, 1);
             }
@@ -72,12 +72,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // Update filter list
-    function updateFilterList() {
+    async function updateFilterList() {
         //Sort the array of the curretn site
         filters[currentSite].fillterWords.sort();
 
         //Store current filters to chrome
-        chrome.storage.sync.set({
+        await chrome.storage.sync.set({
             [filters[currentSite].storageName]: JSON.stringify(filters[currentSite].fillterWords)
         });
 
@@ -92,9 +92,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             deleteBtn.classList.add("delete-btn");
 
             //Delete the filter when clicked
-            deleteBtn.addEventListener("click", () => {
+            deleteBtn.addEventListener("click", async () => {
                 filters[currentSite].fillterWords.splice(index, 1);
-                updateFilterList();
+                await updateFilterList();
+
+                if (toggleSwitch.checked) { //send a filter command if filtering is on
+                    Utils.sendFilterCommand(activeTab, 1);
+                }
             });
 
             listItem.appendChild(deleteBtn);
