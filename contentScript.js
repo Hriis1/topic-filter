@@ -28,9 +28,8 @@
             // Select all article and shreddit-ad-post direct children of feed container
             const elements = document.querySelectorAll("shreddit-feed > article, shreddit-feed > shreddit-ad-post");
 
-
             //Filter the elements
-            elements.forEach(el => filterFunc(el, redditFilters));
+            //elements.forEach(el => filterFunc(el, redditFilters));
 
         } else { //if there is no feedContainer
             console.warn("No shreddit-feed container found");
@@ -39,11 +38,11 @@
         //Filter the side bar
         const sideBar = document.querySelector('div[slot="posts"]');
         if (sideBar) {
-            //Select the posts on the side
-            const elements = sideBar.querySelectorAll("div");
+            //Select the posts on the side - only direct div children
+            const elements = sideBar.querySelectorAll('div[slot="posts"] > div');
 
             //Filter the elements
-            //elements.forEach(el => filterFunc(el, redditFilters));
+            elements.forEach(el => filterFunc(el, redditFilters));
 
         } else {
             console.warn("No side bar found");
