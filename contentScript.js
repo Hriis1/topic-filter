@@ -9,11 +9,20 @@
         }
     });
 
+    //shared-feed container for reddit
+    let redditFilterCount = 0;
+    let redditMainContainer = null;
+
     chrome.runtime.onMessage.addListener((commandProp, sender, response) => {
         const { type, site, filterAction } = commandProp;
 
         if (type === "FILTER") {
             if (site == "reddit") {
+
+                if (redditFilterCount++ == 0) { //if its the first time the filter event is called for reddit
+                    redditMainContainer = document.querySelector("shreddit-feed"); //set the reddit main container
+                }
+
                 if (filterAction == 1) {
                     filterToggleVal = true;
                     filterReddit(filterElement);
@@ -36,17 +45,14 @@
 
         const redditFilters = await fetchFilters("rdFiltersStorage");
 
-        //Filter the main content of reddit
-        const feedContainer = document.querySelector("shreddit-feed");
-
-        if (feedContainer) { //if there is a feedContainer
+        if (redditMainContainer) { //if there is a redditMainContainer
             // Select all article and shreddit-ad-post direct children of feed container
             const elements = document.querySelectorAll("shreddit-feed > article, shreddit-feed > shreddit-ad-post");
 
             //Filter the elements
             elements.forEach(el => filterFunc(el, redditFilters));
 
-        } else { //if there is no feedContainer
+        } else { //if there is no redditMainContainer
             console.warn("No shreddit-feed container found");
         }
 
