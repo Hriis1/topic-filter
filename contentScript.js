@@ -27,16 +27,17 @@
 
                     //Add observer for when new content is added
                     redditMainContainerObserver = new MutationObserver((mutationsList) => {
-                        mutationsList.forEach(mutation => {
-                            if (mutation.type === 'childList' && mutation.addedNodes.length > 0
-                                && redditMainContainer.childElementCount > redditMainContainerNumChildren) {//When the number of children increases
-                                redditMainContainerNumChildren = redditMainContainer.childElementCount;
+                        if (filterToggleVal) { //only filter if filtering is on
+                            mutationsList.forEach(mutation => {
+                                if (mutation.type === 'childList' && mutation.addedNodes.length > 0
+                                    && redditMainContainer.childElementCount > redditMainContainerNumChildren) {//When the number of children increases
+                                    redditMainContainerNumChildren = redditMainContainer.childElementCount;
 
-                                if (filterToggleVal) { //if on filter reddit
-                                    filterReddit(filterElement);
+                                    filterReddit(filterElement); //dop the filtering
+
                                 }
-                            }
-                        });
+                            });
+                        }
                     });
                     // Observe only direct children changes
                     redditMainContainerObserver.observe(redditMainContainer, { childList: true });
