@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         //Send a filter/unfilter command if site is supported
         const filterVal = toggleSwitch.checked ? 1 : 0; //1 - filter, 0 - unfilter
-        Utils.sendFilterCommand(filterVal);
+        Utils.sendFilterCommand(activeTab, filterVal);
     });
 
     // Change tab
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             filterInput.value = "";
             updateFilterList();
             if (toggleSwitch.checked) { //send a filter command if filtering is on
-                Utils.sendFilterCommand(filterVal);
+                Utils.sendFilterCommand(activeTab, 1);
             }
         }
     });

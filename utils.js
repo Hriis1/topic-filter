@@ -17,7 +17,8 @@ export async function getActiveTab() {
 }
 
 //Send a filter command to contentscript
-export function sendFilterCommand(filterVal) {
+export function sendFilterCommand(activeTab, filterVal) {
+    console.log("Filter func called");
     if (activeTab.url.includes("reddit.com")) { //if its a reddit tab
         chrome.tabs.sendMessage(activeTab.id, {
             type: "FILTER",
