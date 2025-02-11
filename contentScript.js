@@ -25,8 +25,9 @@
         const feedContainer = document.querySelector("shreddit-feed");
 
         if (feedContainer) { //if there is a feedContainer
-            // Select all article and shreddit-ad-post elements within the container
-            const elements = feedContainer.querySelectorAll("article, shreddit-ad-post");
+            // Select all article and shreddit-ad-post direct children of feed container
+            const elements = document.querySelectorAll("shreddit-feed > article, shreddit-feed > shreddit-ad-post");
+
 
             //Filter the elements
             elements.forEach(el => filterFunc(el, redditFilters));
@@ -42,7 +43,7 @@
             const elements = sideBar.querySelectorAll("div");
 
             //Filter the elements
-            elements.forEach(el => filterFunc(el, redditFilters));
+            //elements.forEach(el => filterFunc(el, redditFilters));
 
         } else {
             console.warn("No side bar found");
@@ -51,6 +52,8 @@
     }
 
     function filterElement(el, filters) {
+
+        console.log(el);
         // Get all the text within the element
         const text = el.textContent || "";
 
