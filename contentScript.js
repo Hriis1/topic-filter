@@ -12,7 +12,10 @@
     //shared-feed container for reddit
     let redditFilterCount = 0;
     let redditMainContainer = null;
+    let redditMainContainerObserver;
+    let redditMainContainerNumChildren = 0;
 
+    //Listen for commands
     chrome.runtime.onMessage.addListener((commandProp, sender, response) => {
         const { type, site, filterAction } = commandProp;
 
@@ -21,6 +24,22 @@
 
                 if (redditFilterCount++ == 0) { //if its the first time the filter event is called for reddit
                     redditMainContainer = document.querySelector("shreddit-feed"); //set the reddit main container
+
+                    //Add observer for when new content is added
+                    redditMainContainerObserver = new MutationObserver((mutationsList) => {
+                        mutationsList.forEach(mutation => {
+                            if (mutation.type === 'childList' && mutation.addedNodes.length > 0
+                                && redditMainContainer.childElementCount > redditMainContainerNumChildren) {//When the number of children increases
+                                redditMainContainerNumChildren = redditMainContainer.childElementCount;
+
+                                if (filterToggleVal) { //if on filter reddit
+                                    filterReddit(filterElement);
+                                }
+                            }
+                        });
+                    });
+                    // Observe only direct children changes
+                    redditMainContainerObserver.observe(redditMainContainer, { childList: true });
                 }
 
                 if (filterAction == 1) {
