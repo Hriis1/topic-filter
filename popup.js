@@ -46,13 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         //Send a filter/unfilter command if site is supported
         const filterVal = toggleSwitch.checked ? 1 : 0; //1 - filter, 0 - unfilter
-        if (activeTab.url.includes("reddit.com")) { //if its a reddit tab
-            chrome.tabs.sendMessage(activeTab.id, {
-                type: "FILTER",
-                site: "reddit",
-                filterAction: filterVal
-            });
-        }
+        Utils.sendFilterCommand(filterVal);
     });
 
     // Change tab
@@ -71,6 +65,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             filters[currentSite].fillterWords.push(filterText);
             filterInput.value = "";
             updateFilterList();
+            if (toggleSwitch.checked) { //send a filter command if filtering is on
+                Utils.sendFilterCommand(filterVal);
+            }
         }
     });
 

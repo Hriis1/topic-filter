@@ -15,3 +15,14 @@ export async function getActiveTab() {
     let [tab] = await chrome.tabs.query(queryOptions);
     return tab;
 }
+
+//Send a filter command to contentscript
+export function sendFilterCommand(filterVal) {
+    if (activeTab.url.includes("reddit.com")) { //if its a reddit tab
+        chrome.tabs.sendMessage(activeTab.id, {
+            type: "FILTER",
+            site: "reddit",
+            filterAction: filterVal
+        });
+    }
+}
