@@ -29,7 +29,7 @@
             const elements = document.querySelectorAll("shreddit-feed > article, shreddit-feed > shreddit-ad-post");
 
             //Filter the elements
-            //elements.forEach(el => filterFunc(el, redditFilters));
+            elements.forEach(el => filterFunc(el, redditFilters));
 
         } else { //if there is no feedContainer
             console.warn("No shreddit-feed container found");
@@ -51,8 +51,6 @@
     }
 
     function filterElement(el, filters) {
-
-        console.log(el);
         // Get all the text within the element to lower case
         const text = (el.textContent || "").toLowerCase();
 
