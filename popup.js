@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Add filter
     addFilterBtn.addEventListener("click", () => {
-        const filterText = filterInput.value.trim();
+        const filterText = filterInput.value.trim().toLowerCase(); //trim the text and transform it to lower case
         if (filterText) {
             filters[currentSite].fillterWords.push(filterText);
             filterInput.value = "";
