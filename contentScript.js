@@ -1,24 +1,39 @@
 //Main script that runs on the loaded page
 (() => {
+
+    //Set the initial filter val
+    let filterToggleVal = false;
+    chrome.storage.sync.get(["filterEnabled"], (data) => {
+        if (data.filterEnabled !== undefined) {
+            filterToggleVal = data.filterEnabled;
+        }
+    });
+
     chrome.runtime.onMessage.addListener((commandProp, sender, response) => {
         const { type, site, filterAction } = commandProp;
 
         if (type === "FILTER") {
             if (site == "reddit") {
                 if (filterAction == 1) {
-                    console.log("Filter site: " + site);
+                    filterToggleVal = true;
                     filterReddit(filterElement);
                 }
                 else if (filterAction == 0) {
-                    console.log("Unfilter site: " + site);
+                    filterToggleVal = false;
                     filterReddit(unfilterElement);
                 }
             }
-
         }
     });
 
     async function filterReddit(filterFunc) {
+
+        if (filterFunc === filterElement) {
+            console.log("FILTERING SITE :))");
+        } else {
+            console.log("UNFILTERING SITE :)");
+        }
+
         const redditFilters = await fetchFilters("rdFiltersStorage");
 
         //Filter the main content of reddit

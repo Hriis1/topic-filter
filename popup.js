@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
     updateFilterList();
 
-    // Load saved toggle state
+    // Load saved toggle state and send 
     chrome.storage.sync.get(["filterEnabled"], (data) => {
         if (data.filterEnabled !== undefined) {
             toggleSwitch.checked = data.filterEnabled;
