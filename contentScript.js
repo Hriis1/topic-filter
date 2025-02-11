@@ -53,8 +53,8 @@
     function filterElement(el, filters) {
 
         console.log(el);
-        // Get all the text within the element
-        const text = el.textContent || "";
+        // Get all the text within the element to lower case
+        const text = (el.textContent || "").toLowerCase();
 
         // Check if any of the filter keywords appear in the text
         const hasFilterKeyword = filters.some(keyword => text.includes(keyword));
